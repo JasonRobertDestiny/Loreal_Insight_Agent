@@ -1,0 +1,27 @@
+# Development requirements with more flexible versions
+# Use this file if you encounter compatibility issues
+
+# Core dependencies with flexible versions
+gradio>=5.0.0,<6.0.0
+langchain>=0.3.0,<0.4.0
+langchain-community>=0.3.0,<0.4.0
+langchain-core>=0.3.0,<0.4.0
+
+# Data science stack - compatible with older compilers
+matplotlib>=3.5.0,<4.0.0
+numpy>=1.21.0,<1.26.0  # Compatible with older GCC versions
+pandas>=1.5.0,<3.0.0
+seaborn>=0.11.0,<1.0.0
+
+# API and utilities
+openai>=1.0.0,<2.0.0
+python-dotenv>=1.0.0,<2.0.0
+requests>=2.25.0,<3.0.0
+SQLAlchemy>=2.0.0,<3.0.0
+typer>=0.12.0,<1.0.0
+pydantic>=2.0.0,<3.0.0
+
+# Optional: Pre-compiled numpy for Windows
+# Uncomment if you still have issues:
+# --find-links https://download.pytorch.org/whl/torch_stable.html
+# numpy --only-binary=numpy
