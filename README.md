@@ -5,8 +5,9 @@
 
 ## ✨ 主要功能
 
-- 🔍 **自然语言转SQL**: 使用自然语言查询数据库，自动生成并执行SQL语句
+- 🔍 **多语言自然语言转SQL**: 支持中英文查询数据库，自动生成并执行SQL语句
 - 📊 **智能数据可视化**: 根据查询意图自动生成图表（柱状图、折线图、饼图等）
+- 🌐 **双语支持**: 完整支持中文和英文界面及查询
 - 🎨 **美观的Web界面**: 基于Gradio构建的现代化用户界面
 - 🔧 **灵活配置**: 支持多种LLM模型和数据库连接
 - 📝 **完整日志**: 详细的SQL执行日志和错误追踪
@@ -59,15 +60,25 @@ python app.py
 
 ## 📖 使用说明
 
-### 数据查询示例
-- "显示所有订单的总数"
-- "查询2024年的销售额"
-- "按产品类别统计订单数量"
+### 中文查询示例
+- "显示各个渠道的销售额排名"
+- "查询各省份的销售数据"
+- "按终端名称统计订单数量"
+- "最近一个月的销售趋势如何？"
+
+### English Query Examples
+- "Show sales ranking by channel"
+- "Query sales data by province"
+- "Count orders by terminal name"
+- "What's the sales trend for the last month?"
 
 ### 可视化查询示例
-- "绘制月度销售趋势图"
-- "显示产品类别的饼图"
-- "可视化订单金额分布"
+- "可视化各省份的销售分布"
+- "绘制各渠道的销售对比图"
+- "显示材料销售的饼图"
+- "Visualize sales distribution by province"
+- "Create a comparison chart of sales by channel"
+- "Show material sales pie chart"
 
 ## 📁 项目结构
 
