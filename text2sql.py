@@ -9,6 +9,7 @@ from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from langchain.chains import create_sql_query_chain
 from langchain_community.tools import QuerySQLDataBaseTool
 from llm_client import SiliconFlow  # 使用独立的LLM模块
+from language_utils import language_detector, multilingual_prompts
 from dotenv import load_dotenv
 
 # 加载 .env 文件中的环境变量
@@ -63,15 +64,15 @@ class Text2SQL:
         write_query = create_sql_query_chain(self.llm, self.db)
         execute_query = QuerySQLDataBaseTool(db=self.db)
         
-        # 回答生成提示模板
-        answer_prompt = PromptTemplate.from_template(
-            """基于以下信息回答问题：
-问题：{question}
-生成的 SQL 查询：{clean_query}
-数据库返回结果：{result}
-
-请用自然语言给出简洁答案。如果结果中的数值为 0，明确说明"没有记录"""
-        )
+        # 检测语言并选择合适的提示模板
+        def get_answer_prompt(inputs):
+            question = inputs.get('question', '')
+            detected_language = language_detector.detect_language(question)
+            prompt_template = multilingual_prompts.get_sql_answer_prompt(detected_language)
+            return PromptTemplate.from_template(prompt_template)
+        
+        # 动态获取回答生成提示模板
+        answer_prompt_func = RunnableLambda(lambda x: get_answer_prompt(x).format(**x))
         
         # 构建完整链
         chain = (
@@ -92,7 +93,7 @@ class Text2SQL:
                     "clean_query": itemgetter("clean_query"),
                     "result": itemgetter("result")
                 }
-                | answer_prompt  # 填充模板
+                | answer_prompt_func  # 使用动态提示模板
                 | self.llm  # 生成自然语言回答
                 | StrOutputParser()  # 解析输出
             )

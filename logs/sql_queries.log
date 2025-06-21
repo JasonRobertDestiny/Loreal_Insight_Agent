@@ -206,3 +206,331 @@ SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_orde
 2025-06-20 23:12:37,717 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
 2025-06-20 23:12:37,718 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
 2025-06-20 23:12:37,865 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-20 23:47:46,099 - INFO - SQL请求: show a table
+2025-06-20 23:47:52,033 - INFO - SQL响应: Question: show a table
+SQLQuery: SELECT "order_no", "order_date", "material_name_cn", "sales", "province_name", "terminal_name" FROM new_fact_order_detail ORDER BY "order_date" DESC LIMIT 5
+2025-06-20 23:47:52,034 - INFO - SQL响应: Question: show a table
+SQLQuery: SELECT "order_no", "order_date", "material_name_cn", "sales", "province_name", "terminal_name" FROM new_fact_order_detail ORDER BY "order_date" DESC LIMIT 5
+2025-06-20 23:47:52,034 - INFO - 清洗后的SQL: SELECT "order_no", "order_date", "material_name_cn", "sales", "province_name", "terminal_name" FROM new_fact_order_detail ORDER BY "order_date" DESC LIMIT 5
+2025-06-20 23:47:52,035 - INFO - 执行SQL: SELECT "order_no", "order_date", "material_name_cn", "sales", "province_name", "terminal_name" FROM new_fact_order_detail ORDER BY "order_date" DESC LIMIT 5
+2025-06-20 23:47:52,178 - INFO - SQL结果: [('a951bc006275d32f188047ba4cb5d0df', '2024-12-31', '芝麻开门男士紧致淡纹抗皱精华乳 50ml', 145.2, '河北省', '邯郸新世纪'), ('fd198f57f824fe37e70fb586c08d20ca', '2024-12-31', '芝麻开门男士淡纹焕肤精华水 150ml', 84.7, '北京市', '北京SKP'), ('86f9fb2e44057259eefb7c684af8b6c1', '2024-12-31', '芝麻开门男士水动力爽肤水 200ml', 34.1, '江苏省', '常州泰富'), ('43d3b2ed29ee4d6d52c732d36be627f2', '2024-12-31', '芝麻开门男士水动力洁面乳 125ml', 31.35, '陕西省', '西安赛格'), ('43d3b2ed29ee4d6d52c732d36be627f2', '2024-12-31', '芝麻开门男士水动力爽肤水 200ml', 34.1, '陕西省', '西安赛格')]
+2025-06-21 00:07:02,511 - INFO - SQL请求: 绘制每日销售额的趋势图
+2025-06-21 00:07:06,943 - INFO - SQL响应: To create a trend chart of daily sales, we need to aggregate the sales data by each day. Here is the SQL query to achieve that:
+
+Question: 绘制每日销售额的趋势图
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 00:07:06,944 - INFO - SQL响应: To create a trend chart of daily sales, we need to aggregate the sales data by each day. Here is the SQL query to achieve that:
+
+Question: 绘制每日销售额的趋势图
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 00:07:06,944 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 00:07:06,946 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 00:07:07,267 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 10:34:11,126 - INFO - SQL请求: Tracer le graphique de tendance des ventes quotidiennes
+2025-06-21 10:34:15,874 - INFO - SQL响应: Question: Tracer le graphique de tendance des ventes quotidiennes
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:34:15,876 - INFO - SQL响应: Question: Tracer le graphique de tendance des ventes quotidiennes
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:34:15,876 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:34:15,877 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:34:16,049 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 10:38:56,967 - INFO - SQL请求: Tracer le graphique de tendance des ventes quotidiennes
+2025-06-21 10:39:00,768 - INFO - SQL响应: Question: Tracer le graphique de tendance des ventes quotidiennes
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:39:00,769 - INFO - SQL响应: Question: Tracer le graphique de tendance des ventes quotidiennes
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:39:00,769 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:39:00,770 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:39:00,921 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 10:39:09,038 - INFO - SQL请求: Plot daily sales trend chart
+2025-06-21 10:39:12,973 - INFO - SQL响应: To plot a daily sales trend chart, we need to aggregate the sales data by each day. We will sum the sales for each day and limit the results to 5 days for demonstration purposes.
+
+Question: Plot daily sales trend chart
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:39:12,973 - INFO - SQL响应: To plot a daily sales trend chart, we need to aggregate the sales data by each day. We will sum the sales for each day and limit the results to 5 days for demonstration purposes.
+
+Question: Plot daily sales trend chart
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:39:12,973 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:39:12,975 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:39:13,106 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 10:46:30,950 - INFO - SQL请求: 绘制每日销售额的趋势图
+2025-06-21 10:46:35,587 - INFO - SQL响应: To draw a trend chart of daily sales, we need to aggregate the sales data by each day. Here is the SQL query to get the daily sales totals:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:46:35,588 - INFO - SQL响应: To draw a trend chart of daily sales, we need to aggregate the sales data by each day. Here is the SQL query to get the daily sales totals:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:46:35,588 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:46:35,589 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:46:35,749 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 10:46:39,166 - INFO - SQL请求: 可视化各个渠道的销售对比
+2025-06-21 10:46:42,220 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 10:46:42,221 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 10:46:42,221 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 10:46:42,222 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 10:46:42,354 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 10:48:47,517 - INFO - SQL请求: 绘制每日销售额的趋势图
+2025-06-21 10:48:51,192 - INFO - SQL响应: To create a trend chart of daily sales, we need to aggregate the sales data by date. Here is the SQL query to get the total sales for each day:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:48:51,192 - INFO - SQL响应: To create a trend chart of daily sales, we need to aggregate the sales data by date. Here is the SQL query to get the total sales for each day:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:48:51,192 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:48:51,193 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:48:51,339 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 10:52:43,786 - INFO - SQL请求: 绘制每日销售额的趋势图
+2025-06-21 10:52:47,541 - INFO - SQL响应: To draw a trend graph of daily sales, we need to aggregate the sales data by each day. Here's the SQL query to get the total sales for each day:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:52:47,542 - INFO - SQL响应: To draw a trend graph of daily sales, we need to aggregate the sales data by each day. Here's the SQL query to get the total sales for each day:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:52:47,542 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:52:47,543 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:52:47,689 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 10:52:51,013 - INFO - SQL请求: Plot daily sales trend chart
+2025-06-21 10:52:54,229 - INFO - SQL响应: Question: Plot daily sales trend chart
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:52:54,229 - INFO - SQL响应: Question: Plot daily sales trend chart
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:52:54,229 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:52:54,230 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 10:52:54,365 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 10:57:35,929 - INFO - SQL请求: What's the sales trend for the last 5 days?
+2025-06-21 10:57:39,169 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 10:57:39,169 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 10:57:39,169 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 10:57:39,170 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 10:57:39,221 - INFO - SQL结果: 
+2025-06-21 11:02:14,251 - INFO - SQL请求: Tracer le graphique de tendance des ventes quotidiennes
+2025-06-21 11:02:18,034 - INFO - SQL响应: Question: Tracer le graphique de tendance des ventes quotidiennes
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:02:18,034 - INFO - SQL响应: Question: Tracer le graphique de tendance des ventes quotidiennes
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:02:18,034 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:02:18,035 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:02:18,105 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:02:35,637 - INFO - SQL请求: Tracer le graphique de tendance des ventes quotidiennes
+2025-06-21 11:02:40,258 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:02:40,259 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:02:40,259 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:02:40,260 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:02:40,389 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:02:52,489 - INFO - SQL请求: What's the sales trend for the last 5 days?
+2025-06-21 11:02:57,207 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:02:57,207 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:02:57,207 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:02:57,208 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:02:57,320 - INFO - SQL结果: 
+2025-06-21 11:03:12,797 - INFO - SQL请求: Plot daily sales trend chart
+2025-06-21 11:03:18,081 - INFO - SQL响应: To plot a daily sales trend chart, we need to aggregate the sales data by date. Here's the SQL query to get the total sales for each day:
+
+Question: Plot daily sales trend chart
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:03:18,081 - INFO - SQL响应: To plot a daily sales trend chart, we need to aggregate the sales data by date. Here's the SQL query to get the total sales for each day:
+
+Question: Plot daily sales trend chart
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:03:18,081 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:03:18,082 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:03:18,228 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:05:22,996 - INFO - SQL请求: 绘制每日销售额的趋势图
+2025-06-21 11:05:27,667 - INFO - SQL响应: Question: 绘制每日销售额的趋势图
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:05:27,668 - INFO - SQL响应: Question: 绘制每日销售额的趋势图
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:05:27,668 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:05:27,670 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:05:27,805 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:16:06,245 - INFO - SQL请求: 绘制每日销售额的趋势图
+2025-06-21 11:16:09,968 - INFO - SQL响应: To create a trend chart of daily sales, we need to aggregate the sales data by each day. Here's the SQL query to get the daily sales totals:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:16:09,968 - INFO - SQL响应: To create a trend chart of daily sales, we need to aggregate the sales data by each day. Here's the SQL query to get the daily sales totals:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:16:09,968 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:16:09,969 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:16:10,100 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:16:14,134 - INFO - SQL请求: Plot daily sales trend chart
+2025-06-21 11:16:18,164 - INFO - SQL响应: To plot a daily sales trend chart, we need to aggregate the sales data by date. Here's the SQL query to get the daily sales totals:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" LIMIT 5
+2025-06-21 11:16:18,165 - INFO - SQL响应: To plot a daily sales trend chart, we need to aggregate the sales data by date. Here's the SQL query to get the daily sales totals:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" LIMIT 5
+2025-06-21 11:16:18,165 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" LIMIT 5
+2025-06-21 11:16:18,166 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" LIMIT 5
+2025-06-21 11:16:18,298 - INFO - SQL结果: [('2024-01-01', 156229.15), ('2024-01-02', 71371.3), ('2024-01-03', 52048.700000000004), ('2024-01-04', 47179.0), ('2024-01-05', 49112.8)]
+2025-06-21 11:16:23,242 - INFO - SQL请求: Tracer le graphique de tendance des ventes quotidiennes
+2025-06-21 11:16:26,491 - INFO - SQL响应: Question: Tracer le graphique de tendance des ventes quotidiennes
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:16:26,491 - INFO - SQL响应: Question: Tracer le graphique de tendance des ventes quotidiennes
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:16:26,491 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:16:26,492 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:16:26,624 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:16:43,288 - INFO - SQL请求: What's the sales trend for the last 5 days?
+2025-06-21 11:16:47,111 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:16:47,112 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:16:47,112 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:16:47,113 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:16:47,211 - INFO - SQL结果: 
+2025-06-21 11:17:10,138 - INFO - SQL请求: Tracer le graphique de tendance des ventes quotidiennes
+2025-06-21 11:17:13,269 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:17:13,269 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:17:13,269 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:17:13,270 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:17:13,404 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:21:29,352 - INFO - SQL请求: Tracer le graphique de tendance des ventes quotidiennes
+2025-06-21 11:21:32,498 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:21:32,498 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:21:32,499 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:21:32,499 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:21:32,631 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:21:45,511 - INFO - SQL请求: Plot daily sales trend chart
+2025-06-21 11:21:48,824 - INFO - SQL响应: Question: Plot daily sales trend chart
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:21:48,824 - INFO - SQL响应: Question: Plot daily sales trend chart
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:21:48,825 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:21:48,826 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:21:48,953 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:22:03,576 - INFO - SQL请求: What's the sales trend for the last 5 days?
+2025-06-21 11:22:09,050 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:22:09,050 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:22:09,050 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:22:09,051 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:22:09,147 - INFO - SQL结果: 
+2025-06-21 11:24:41,536 - INFO - SQL请求: Plot daily sales trend chart
+2025-06-21 11:24:45,682 - INFO - SQL响应: To plot a daily sales trend chart, we need to aggregate the sales data by date. Here's the SQL query to get the total sales for each day:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:24:45,682 - INFO - SQL响应: To plot a daily sales trend chart, we need to aggregate the sales data by date. Here's the SQL query to get the total sales for each day:
+
+SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:24:45,682 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:24:45,683 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "order_date" ORDER BY "order_date" DESC LIMIT 5
+2025-06-21 11:24:45,814 - INFO - SQL结果: [('2024-12-31', 67305.15), ('2024-12-30', 9650.85), ('2024-12-29', 8228.55), ('2024-12-28', 5234.35), ('2024-12-27', 1564.75)]
+2025-06-21 11:25:00,159 - INFO - SQL请求: What's the sales trend for the last 5 days?
+2025-06-21 11:25:04,063 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:25:04,063 - INFO - SQL响应: SQLQuery: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:25:04,064 - INFO - 清洗后的SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:25:04,065 - INFO - 执行SQL: SELECT "order_date", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" WHERE "order_date" >= date('now', '-5 days') GROUP BY "order_date" ORDER BY "order_date"
+2025-06-21 11:25:04,189 - INFO - SQL结果: 
+2025-06-21 11:27:21,008 - INFO - SQL请求: Visualize sales distribution by province
+2025-06-21 11:27:23,749 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:23,749 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:23,749 - INFO - 清洗后的SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:23,750 - INFO - 执行SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:23,931 - INFO - SQL结果: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:27:29,813 - INFO - SQL请求: Visualiser la distribution des ventes par province
+2025-06-21 11:27:32,576 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:32,577 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:32,577 - INFO - 清洗后的SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:32,578 - INFO - 执行SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:32,765 - INFO - SQL结果: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:27:56,180 - INFO - SQL请求: Show total sales by channel
+2025-06-21 11:27:58,472 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:58,473 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:58,473 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:58,474 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:27:58,632 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:31:58,679 - INFO - SQL请求: Visualize sales distribution by province
+2025-06-21 11:32:00,976 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:32:00,976 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:32:00,976 - INFO - 清洗后的SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:32:00,977 - INFO - 执行SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:32:01,199 - INFO - SQL结果: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:33:35,144 - INFO - SQL请求: Visualiser la distribution des ventes par province
+2025-06-21 11:33:37,526 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:33:37,526 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:33:37,526 - INFO - 清洗后的SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:33:37,527 - INFO - 执行SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:33:37,746 - INFO - SQL结果: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:33:43,004 - INFO - SQL请求: Show total sales by channel
+2025-06-21 11:33:45,384 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:33:45,385 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:33:45,385 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:33:45,386 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:33:45,550 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:37:13,570 - INFO - SQL Request: Visualize sales distribution by province
+2025-06-21 11:37:16,306 - INFO - SQL Response: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:16,306 - INFO - SQL Response: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:16,306 - INFO - Cleaned SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:16,308 - INFO - Executing SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:16,581 - INFO - SQL Result: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:37:22,694 - INFO - SQL Request: Visualiser la distribution des ventes par province
+2025-06-21 11:37:25,479 - INFO - SQL Response: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:25,479 - INFO - SQL Response: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:25,480 - INFO - Cleaned SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:25,481 - INFO - Executing SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:25,658 - INFO - SQL Result: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:37:38,470 - INFO - SQL Request: Show total sales by channel
+2025-06-21 11:37:40,911 - INFO - SQL Response: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:40,912 - INFO - SQL Response: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:40,912 - INFO - Cleaned SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:40,913 - INFO - Executing SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:41,096 - INFO - SQL Result: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:37:54,066 - INFO - SQL Request: Show total sales by channel
+2025-06-21 11:37:56,213 - INFO - SQL Response: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:56,214 - INFO - SQL Response: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:56,214 - INFO - Cleaned SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:56,215 - INFO - Executing SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:37:56,360 - INFO - SQL Result: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:42:47,053 - INFO - SQL请求: Show total sales by channel
+2025-06-21 11:42:49,294 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:42:49,294 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:42:49,294 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:42:49,295 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:42:49,435 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:43:16,966 - INFO - SQL请求: Plot sales trend by channel
+2025-06-21 11:43:19,507 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM new_fact_order_detail GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:43:19,507 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM new_fact_order_detail GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:43:19,507 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM new_fact_order_detail GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:43:19,508 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM new_fact_order_detail GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:43:19,661 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:44:27,986 - INFO - SQL请求: Visualize sales distribution by province
+2025-06-21 11:44:30,529 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:44:30,530 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:44:30,530 - INFO - 清洗后的SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:44:30,531 - INFO - 执行SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:44:30,696 - INFO - SQL结果: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:44:37,041 - INFO - SQL请求: Plot sales trend by channel
+2025-06-21 11:44:39,128 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:44:39,128 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:44:39,128 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:44:39,129 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:44:39,286 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:45:51,726 - INFO - SQL请求: Show total sales by channel
+2025-06-21 11:45:54,037 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:45:54,038 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:45:54,038 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:45:54,039 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:45:54,211 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:46:05,060 - INFO - SQL请求: Visualize sales distribution by province
+2025-06-21 11:46:07,743 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:46:07,743 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:46:07,743 - INFO - 清洗后的SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:46:07,745 - INFO - 执行SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:46:07,963 - INFO - SQL结果: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:46:13,032 - INFO - SQL请求: Plot sales trend by channel
+2025-06-21 11:46:15,494 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:46:15,495 - INFO - SQL响应: SQLQuery: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:46:15,495 - INFO - 清洗后的SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:46:15,496 - INFO - 执行SQL: SELECT "channel", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "channel" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:46:15,625 - INFO - SQL结果: [('1', 7898805.75), ('2', 3212730.4)]
+2025-06-21 11:56:13,346 - INFO - SQL请求: Visualize sales distribution by province
+2025-06-21 11:56:16,197 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:56:16,197 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:56:16,198 - INFO - 清洗后的SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:56:16,199 - INFO - 执行SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:56:16,378 - INFO - SQL结果: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
+2025-06-21 11:56:25,334 - INFO - SQL请求: Visualize sales distribution by province
+2025-06-21 11:56:28,229 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:56:28,230 - INFO - SQL响应: SQLQuery: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:56:28,230 - INFO - 清洗后的SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:56:28,231 - INFO - 执行SQL: SELECT "province_name", SUM("sales") AS "total_sales" FROM "new_fact_order_detail" GROUP BY "province_name" ORDER BY "total_sales" DESC LIMIT 5
+2025-06-21 11:56:28,416 - INFO - SQL结果: [('浙江省', 1860581.8), ('江苏省', 1487745.05), ('上海市', 957078.65), ('北京市', 708801.5), ('广东省', 685787.85)]
