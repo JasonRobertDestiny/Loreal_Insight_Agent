@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 项目文档
+    url: https://deepwiki.com/JasonRobertDestiny/Loreal_Insight_Agent
+    about: 查看项目文档和使用指南
+  - name: 💬 讨论区
+    url: https://github.com/JasonRobertDestiny/Loreal_Insight_Agent/issues
+    about: 一般性问题和讨论
+  - name: 📧 联系我们
+    url: mailto:johnrobertdestiny@gmail.com
+    about: 私密问题或商务合作

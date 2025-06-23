@@ -1,29 +1,102 @@
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+.env/
 
 # Environment variables
 .env
 *.env
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # Database files
 *.db
+*.sqlite
+*.sqlite3
 data/*.db
 chat_history.db
+memory_database.db
 
 # Log files
 logs/
 *.log
+sql_queries.log
 
-# Generated visualization images
+# Generated files
 viz_images/*.png
 viz_images/*.jpg
+viz_images/*.jpeg
+viz_images/*.gif
+!viz_images/.gitkeep
 
 # Export files
 *.csv
+history_export_*.csv
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+.pytest_cache/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # Development tools
 .trae/
 
-# ModelScope deployment folder (separate repo)
+# Deployment folders
 loreal-insight-agent/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json

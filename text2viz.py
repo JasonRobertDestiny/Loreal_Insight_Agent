@@ -315,10 +315,10 @@ class Text2Viz:
                 return df, img_path, clean_query
             else:
                 logger.error(f"处理链返回格式异常: {result}")
-                return pd.DataFrame(), None
+                return pd.DataFrame(), None, ""
         except Exception as e:
             logger.error(f"可视化处理异常: {str(e)}")
-            return pd.DataFrame(), None
+            return pd.DataFrame(), None, ""
 
 # 调用示例 (生产环境中通常不会直接在模块底部执行)
 if __name__ == "__main__":

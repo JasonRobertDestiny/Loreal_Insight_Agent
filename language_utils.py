@@ -246,6 +246,25 @@ Response requirements:
 Please respond:"""
         }
     
+    def get_prompts(self, language: str) -> Dict[str, str]:
+        """获取指定语言的所有提示模板
+        
+        Args:
+            language: 语言代码 ('zh', 'en', 'mixed')
+            
+        Returns:
+            包含所有提示模板的字典
+        """
+        # 如果是混合语言，默认使用中文
+        if language == 'mixed':
+            language = 'zh'
+            
+        return {
+            'sql_answer': self.get_sql_answer_prompt(language),
+            'classify_conversation': self.get_classify_prompt(language),
+            'chat': self.get_chat_prompt(language)
+        }
+    
     def get_sql_answer_prompt(self, language: str) -> str:
         """获取SQL回答提示模板"""
         return self.sql_answer_prompts.get(language, self.sql_answer_prompts['zh'])

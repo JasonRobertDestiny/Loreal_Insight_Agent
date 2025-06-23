@@ -1,0 +1,62 @@
+name: 🧪 Tests and Quality Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+    
+    - name: Create test environment
+      run: |
+        cp .env.example .env
+        mkdir -p data logs viz_images
+    
+    - name: Initialize database
+      run: |
+        python init_memory_db.py
+    
+    - name: Run basic tests
+      run: |
+        python test_basic.py
+    
+    - name: Run history recording tests
+      run: |
+        python test_history_recording.py
+        
+    - name: Check code style
+      run: |
+        pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run security checks
+      run: |
+        # Check for hardcoded secrets
+        ! grep -r "sk-" . --exclude-dir=.git --exclude="*.md" --exclude=".env.example" || exit 1
+        # Check for API keys
+        ! grep -r "API_KEY.*=" . --exclude-dir=.git --exclude="*.md" --exclude=".env.example" | grep -v "your_api_key_here" || exit 1

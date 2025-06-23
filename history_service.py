@@ -5,6 +5,7 @@
 提供历史记录的高级管理和分析功能
 """
 
+import os
 import logging
 from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime, timedelta
