@@ -32,9 +32,14 @@ class SiliconFlow(LLM):
         **kwargs: Any,
     ) -> str:
         try:
+            # 检查API_KEY是否存在
+            api_key = os.environ.get("API_KEY")
+            if not api_key or api_key == "your_api_key_here":
+                return "⚠️ 请先配置API_KEY环境变量。\n\n在本地开发时：\n1. 复制.env.example为.env\n2. 在.env文件中填入您的真实API_KEY\n\n在魔塔部署时：\n1. 在平台的环境变量设置中配置API_KEY"
+            
             client = OpenAI(
-                api_key=os.environ.get("API_KEY"),
-                base_url=os.environ.get("BASE_URL")  # 修改API路径
+                api_key=api_key,
+                base_url=os.environ.get("BASE_URL", "https://api.siliconflow.cn/v1")
             )
             
             response = client.chat.completions.create(

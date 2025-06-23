@@ -1,31 +1,62 @@
----
-# L'Oreal Insight Agent 🚀
+# 🎯 L'Oréal Insight Agent 
 
-一个基于大语言模型的智能数据分析工具，支持自然语言查询数据库和自动生成可视化图表。
+<div align="center">
 
-## ✨ 主要功能
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://python.org)
+[![Gradio](https://img.shields.io/badge/Gradio-4.44.1-orange)](https://gradio.app)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Issues](https://img.shields.io/github/issues/JasonRobertDestiny/Loreal_Insight_Agent)](https://github.com/JasonRobertDestiny/Loreal_Insight_Agent/issues)
+[![Stars](https://img.shields.io/github/stars/JasonRobertDestiny/Loreal_Insight_Agent)](https://github.com/JasonRobertDestiny/Loreal_Insight_Agent/stargazers)
 
-- 🔍 **多语言自然语言转SQL**: 支持中英文查询数据库，自动生成并执行SQL语句
-- 📊 **智能数据可视化**: 根据查询意图自动生成图表（柱状图、折线图、饼图等）
-- 🌐 **双语支持**: 完整支持中文和英文界面及查询
-- 🎨 **美观的Web界面**: 基于Gradio构建的现代化用户界面
-- 🔧 **灵活配置**: 支持多种LLM模型和数据库连接
-- 📝 **完整日志**: 详细的SQL执行日志和错误追踪
+**🚀 基于大语言模型的智能数据分析助手，专为企业数据洞察而设计**
 
-## 🛠️ 技术栈
+[🎮 在线演示](https://your-demo-link.com) | [📖 文档](https://deepwiki.com/JasonRobertDestiny/Loreal_Insight_Agent) | [🤝 贡献指南](CONTRIBUTING.md)
 
-- **前端**: Gradio 5.29.1
-- **后端**: Python 3.8+
-- **AI模型**: 支持OpenAI API兼容的模型（默认使用Qwen/QwQ-32B）
-- **数据库**: SQLite（可扩展支持其他数据库）
-- **可视化**: Matplotlib + Seaborn
-- **框架**: LangChain
+</div>
+
+## ✨ 核心特性
+
+### 🎯 智能数据分析
+- �️ **自然语言转SQL** - 用中文或英文直接询问数据
+- 📊 **智能数据可视化** - 自动生成专业图表
+- 🔍 **深度数据分析** - AI驱动的业务洞察
+- 📝 **完整历史记录** - 查询历史管理和导出
+
+### 🌍 用户体验
+- 🌐 **多语言支持** - 完美支持中文/英文双语交互
+- 🎨 **优雅UI设计** - 适配明暗主题，符合欧莱雅品牌风格
+- 📱 **响应式界面** - 完美适配桌面和移动设备
+- ⚡ **实时交互** - 即时查询反馈和错误提示
+
+### 🔧 企业级特性
+- 🔒 **安全可靠** - 环境变量管理，API密钥安全
+- 📈 **性能优化** - 高效SQL执行和缓存机制
+- 🔄 **易于扩展** - 模块化架构，支持多种数据源
+- 📊 **丰富图表** - 柱状图、折线图、饼图、散点图等
+
+## 🎯 适用场景
+
+- 📈 **销售数据分析** - 产品销量、趋势分析
+- �️ **市场洞察** - 消费者行为、偏好分析  
+- 📊 **业务报表** - 自动化报表生成
+- 🎨 **数据可视化** - 专业图表展示
+
+## 🛠️ 技术架构
+
+| 组件 | 技术栈 | 版本 |
+|------|--------|------|
+| **前端** | Gradio | 4.44.1 |
+| **后端** | Python | 3.8+ |
+| **AI模型** | Qwen/Qwen2.5-Coder-32B-Instruct | Latest |
+| **数据库** | SQLite/MySQL/PostgreSQL | - |
+| **可视化** | Matplotlib + Seaborn | Latest |
+| **框架** | LangChain | 0.3.25 |
 
 ## 🚀 快速开始
 
 ### 1. 克隆项目
 ```bash
-git clone https://github.com/JasonRobertDestiny/text2sql.git
+git clone https://github.com/JasonRobertDestiny/Loreal_Insight_Agent.git
 cd Loreal_Insight_Agent
 ```
 

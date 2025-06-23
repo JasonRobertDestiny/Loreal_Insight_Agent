@@ -35,7 +35,7 @@ def process_query(message, history):
     try:
         if is_visualization_query(message):
             # 使用Text2Viz处理可视化查询
-            df, viz_path = text2viz.visualize(message)
+            df, viz_path, clean_query = text2viz.visualize(message)
             
             if viz_path and os.path.exists(viz_path):
                 # 生成数据摘要，但不显示图片
