@@ -45,24 +45,24 @@ class UITranslations:
                 'visual_display': '🎨 视觉呈现',
                 'smart_insights': '🔮 智慧洞察',
                 
-                # 示例查询内容
+                # 示例查询内容 - 基于实际数据结构优化
                 'examples_precise': [
-                    "查询最近7天的总销售额",
-                    "显示各个渠道的销售额排名",
-                    "Show total sales by channel",
-                    "Count orders by province"
+                    "Count orders by province",
+                    "各省份销售额排名统计",
+                    "统计各渠道的销售业绩",
+                    "查询广东省和江苏省的销售对比"
                 ],
                 'examples_visual': [
-                    "绘制每日销售额的趋势图",
-                    "可视化各省份的销售分布",
-                    "Visualize sales distribution by province",
-                    "Plot sales trend by channel"
+                    "绘制各省份销售额对比图",
+                    " Plot monthly sales trend chart",
+                    "制作渠道销售额分布饼图", 
+                    "绘制Top 10产品销售量排行榜"
                 ],
                 'examples_insights': [
                     "哪个省份的销售表现最好？",
-                    "最近一个月的销售趋势如何？",
-                    "Which province has the best sales performance?",
-                    "What are the top selling products?"
+                    "What are the top selling products?",
+                    "销售业绩的季节性趋势如何？",
+                    "不同渠道的表现差异分析"
                 ],
                 
                 # 设置
@@ -77,7 +77,44 @@ class UITranslations:
                 'data_summary_prefix': '以下是查询结果的可视化：\n\n',
                 'data_rows_info': '数据包含 {count} 行记录。\n',
                 'date_range_info': '• {col} 范围: {min_date} 到 {max_date}\n',
-                'numeric_stats_info': '• {col} 统计: 总和={sum:.2f}, 平均值={avg:.2f}\n'
+                'numeric_stats_info': '• {col} 统计: 总和={sum:.2f}, 平均值={avg:.2f}\n',
+                
+                # 历史记录相关
+                'history_title': '查询历史',
+                'search_placeholder': '搜索历史记录...',
+                'search_button': '搜索',
+                'recent_queries': '最近查询',
+                'popular_queries': '热门查询',
+                'export_history': '导出历史',
+                'session_stats': '会话统计',
+                'query_suggestions': '查询建议',
+                'no_history': '暂无历史记录',
+                'no_suggestions': '暂无建议',
+                'query_time': '查询时间',
+                'query_type': '查询类型',
+                'execution_time': '执行时间',
+                'success': '成功',
+                'failed': '失败',
+                'total_queries': '总查询数',
+                'success_rate': '成功率',
+                'avg_time': '平均执行时间',
+                'sql_queries': 'SQL查询',
+                'viz_queries': '可视化查询',
+                'clear_history': '清空历史',
+                'export_success': '导出成功',
+                'export_failed': '导出失败',
+                'refresh_button': '刷新',
+                'back_to_chat': '返回对话',
+                
+                # 记忆功能
+                'memory_title': '智能记忆',
+                'user_preferences': '用户偏好',
+                'query_patterns': '查询模式',
+                'learned_insights': '学习洞察',
+                'personalization': '个性化设置',
+                'memory_stats': '记忆统计',
+                'clear_memory': '清空记忆',
+                'memory_cleared': '记忆已清空'
             },
             
             'en': {
@@ -111,24 +148,24 @@ class UITranslations:
                 'visual_display': '🎨 Visual Display',
                 'smart_insights': '🔮 Smart Insights',
                 
-                # Example query content
+                # Example query content - optimized based on actual data structure
                 'examples_precise': [
-                    "Query total sales for the last 7 days",
-                    "Show top 5 orders by sales amount",
+                    "Query total sales amount and order count for 2024",
+                    "Show sales ranking by province",
                     "Count orders by channel",
-                    "View sales for all brands"
+                    "Compare sales between Guangdong and Jiangsu provinces"
                 ],
                 'examples_visual': [
-                    "Plot daily sales trend chart",
-                    "Visualize sales comparison by channel",
-                    "Show sales distribution by brand",
-                    "Create provincial sales ranking chart"
+                    "Plot provincial sales comparison chart",
+                    "Visualize monthly sales trend changes",
+                    "Create channel sales distribution pie chart",
+                    "Draw Top 10 product sales ranking chart"
                 ],
                 'examples_insights': [
-                    "What's the sales trend for the last 5 days?",
                     "Which province has the best sales performance?",
-                    "What are the top 3 brands by sales?",
-                    "What's the total sales for October?"
+                    "Which products are most popular?",
+                    "What are the seasonal trends in sales?",
+                    "Performance comparison analysis across different channels"
                 ],
                 
                 # Settings
@@ -138,12 +175,49 @@ class UITranslations:
                 'dark_theme': 'Dark',
                 'system_theme': 'System',
                 
-                # Error and status messages
+                # 错误和状态消息
                 'no_data_message': 'Unable to generate data visualization, please try other queries.',
                 'data_summary_prefix': 'Here is the visualization of query results:\n\n',
                 'data_rows_info': 'Data contains {count} rows.\n',
                 'date_range_info': '• {col} range: {min_date} to {max_date}\n',
-                'numeric_stats_info': '• {col} statistics: Sum={sum:.2f}, Average={avg:.2f}\n'
+                'numeric_stats_info': '• {col} statistics: Sum={sum:.2f}, Average={avg:.2f}\n',
+                
+                # 历史记录相关
+                'history_title': 'Query History',
+                'search_placeholder': 'Search history...',
+                'search_button': 'Search',
+                'recent_queries': 'Recent Queries',
+                'popular_queries': 'Popular Queries',
+                'export_history': 'Export History',
+                'session_stats': 'Session Statistics',
+                'query_suggestions': 'Query Suggestions',
+                'no_history': 'No history records',
+                'no_suggestions': 'No suggestions',
+                'query_time': 'Query Time',
+                'query_type': 'Query Type',
+                'execution_time': 'Execution Time',
+                'success': 'Success',
+                'failed': 'Failed',
+                'total_queries': 'Total Queries',
+                'success_rate': 'Success Rate',
+                'avg_time': 'Average Execution Time',
+                'sql_queries': 'SQL Queries',
+                'viz_queries': 'Visualization Queries',
+                'clear_history': 'Clear History',
+                'export_success': 'Export Successful',
+                'export_failed': 'Export Failed',
+                'refresh_button': 'Refresh',
+                'back_to_chat': 'Back to Chat',
+                
+                # 记忆功能
+                'memory_title': 'Smart Memory',
+                'user_preferences': 'User Preferences',
+                'query_patterns': 'Query Patterns',
+                'learned_insights': 'Learned Insights',
+                'personalization': 'Personalization',
+                'memory_stats': 'Memory Statistics',
+                'clear_memory': 'Clear Memory',
+                'memory_cleared': 'Memory Cleared'
             }
         }
         

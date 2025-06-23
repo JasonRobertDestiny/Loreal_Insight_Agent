@@ -21,6 +21,16 @@ from sql_logger import (
     log_sql_execution, log_sql_result, log_sql_error
 )
 
+# 配置中文字体支持
+plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+plt.rcParams['figure.figsize'] = (10, 6)
+plt.rcParams['figure.dpi'] = 100
+
+# 设置seaborn样式
+sns.set_style("whitegrid")
+sns.set_palette("husl")
+
 # 配置基本的日志记录器
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO) # 设置生产环境的日志级别为 INFO
@@ -132,17 +142,19 @@ class Text2Viz:
         return df
     
     def _create_visualization(self, df: pd.DataFrame) -> tuple:
-        """创建可视化图表，支持不同的列名"""
+        """创建可视化图表，支持中文显示和多种图表类型"""
         if len(df.columns) < 2 or df.empty:
             logger.warning("数据不足以创建可视化图表 (列数 < 2 或 DataFrame 为空)")
             return df, None
 
-        font_prop = font_manager.FontProperties(family='SimHei')
+        # 设置中文字体
+        plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
         plt.rcParams['axes.unicode_minus'] = False
-
+        
         x_col = df.columns[0]
         y_col = df.columns[1]
 
+        # 数据类型检查和转换
         if not pd.api.types.is_numeric_dtype(df[y_col]):
             logger.info(f"Y轴列 '{y_col}' 非数值类型，尝试转换...")
             df[y_col] = pd.to_numeric(df[y_col], errors='coerce')
@@ -150,34 +162,68 @@ class Text2Viz:
                 logger.error(f"Y轴列 '{y_col}' 转换数值失败或全为NaN，无法绘图。")
                 return df, None
 
-        plt.figure(figsize=(12, 6))
-        sns.set_style("whitegrid")
-
+        # 创建图表
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
         try:
+            # 根据数据类型选择合适的图表
             if pd.api.types.is_datetime64_dtype(df[x_col]):
-                plt.plot(df[x_col], df[y_col], marker='o')
+                # 时间序列图
+                ax.plot(df[x_col], df[y_col], marker='o', linewidth=2, markersize=6)
+                ax.set_title(f'{y_col} 趋势图', fontsize=16, pad=20)
                 logger.info(f"创建时间序列图: X='{x_col}', Y='{y_col}'")
             else:
-                plt.bar(df[x_col].astype(str), df[y_col]) # 确保x轴为字符串以避免类型问题
+                # 条形图，限制显示数量避免拥挤
+                if len(df) > 15:
+                    df_plot = df.nlargest(15, y_col)
+                    logger.info(f"数据过多，只显示前15条记录")
+                else:
+                    df_plot = df
+                
+                bars = ax.bar(range(len(df_plot)), df_plot[y_col], 
+                             color=plt.cm.Set3(range(len(df_plot))))
+                ax.set_xticks(range(len(df_plot)))
+                ax.set_xticklabels(df_plot[x_col].astype(str), rotation=45, ha='right')
+                ax.set_title(f'{x_col} vs {y_col}', fontsize=16, pad=20)
+                
+                # 在柱状图上添加数值标签
+                for i, bar in enumerate(bars):
+                    height = bar.get_height()
+                    ax.text(bar.get_x() + bar.get_width()/2., height,
+                           f'{height:.0f}', ha='center', va='bottom', fontsize=10)
+                
                 logger.info(f"创建条形图: X='{x_col}', Y='{y_col}'")
             
-            plt.xlabel(x_col, fontproperties=font_prop)
-            plt.ylabel(y_col, fontproperties=font_prop)
-            plt.title(f'{y_col} vs {x_col}', fontproperties=font_prop)
-            plt.xticks(rotation=45, ha='right', fontproperties=font_prop)
-            plt.yticks(fontproperties=font_prop)
+            # 设置坐标轴标签
+            ax.set_xlabel(x_col, fontsize=14)
+            ax.set_ylabel(y_col, fontsize=14)
+            
+            # 美化图表
+            ax.grid(True, alpha=0.3)
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            
+            # 格式化y轴数值
+            if df[y_col].max() > 1000:
+                ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'{x/1000:.1f}K' if x >= 1000 else f'{x:.0f}'))
+            
             plt.tight_layout()
 
-            img_buffer = io.BytesIO()
-            plt.savefig(img_buffer, format='png', bbox_inches='tight')
-            img_buffer.seek(0)
-            plt.close()
-
-            # 保存图片到文件
+            # 保存图片
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             img_filename = os.path.join(self.img_dir, f"viz_{timestamp}.png")
-            with open(img_filename, 'wb') as f:
-                f.write(img_buffer.getvalue())
+            
+            plt.savefig(img_filename, dpi=150, bbox_inches='tight', 
+                       facecolor='white', edgecolor='none')
+            plt.close()
+
+            logger.info(f"可视化图表已保存: {img_filename}")
+            return df, img_filename
+
+        except Exception as e:
+            logger.error(f"创建可视化时发生错误: {str(e)}")
+            plt.close()
+            return df, None
             logger.info(f"可视化图表已保存到 {img_filename}")
 
             return df, img_filename

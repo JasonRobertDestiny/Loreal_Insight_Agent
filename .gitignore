@@ -5,3 +5,25 @@ __pycache__/
 # Environment variables
 .env
 *.env
+
+# Database files
+*.db
+data/*.db
+chat_history.db
+
+# Log files
+logs/
+*.log
+
+# Generated visualization images
+viz_images/*.png
+viz_images/*.jpg
+
+# Export files
+*.csv
+
+# Development tools
+.trae/
+
+# ModelScope deployment folder (separate repo)
+loreal-insight-agent/
