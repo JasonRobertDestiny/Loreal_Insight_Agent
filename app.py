@@ -8,10 +8,18 @@ import logging
 import gradio as gr
 from language_utils import language_detector, multilingual_keywords
 from ui_translations import ui_translations
+from memory_manager import MemoryManager
+from history_service import HistoryService
+from history_ui import HistoryUI
+import time
+import os
 
 # 初始化实例
 text2sql = Text2SQL()
 text2viz = Text2Viz()
+memory_manager = MemoryManager()
+history_service = HistoryService(memory_manager)
+history_ui = HistoryUI(history_service)
 
 # 检测是否是可视化请求的函数（支持多语言）
 def is_visualization_query(query):
@@ -22,22 +30,76 @@ def is_visualization_query(query):
 # 定义回调函数
 def process_query(message, history):
     """处理用户查询并返回回答"""
-    if is_visualization_query(message):
-        # 使用Text2Viz处理可视化查询
-        df, viz_path = text2viz.visualize(message)
-        
-        if viz_path and os.path.exists(viz_path):
-            # 生成数据摘要，但不显示图片
-            summary = generate_data_summary(df)
-            return [(message, summary)]
+    start_time = time.time()
+    
+    try:
+        if is_visualization_query(message):
+            # 使用Text2Viz处理可视化查询
+            df, viz_path = text2viz.visualize(message)
+            
+            if viz_path and os.path.exists(viz_path):
+                # 生成数据摘要，但不显示图片
+                summary = generate_data_summary(df)
+                execution_time = time.time() - start_time
+                
+                # 记录查询历史
+                history_service.record_query(
+                    user_query=message,
+                    query_type="visualization",
+                    result_summary=summary,
+                    success=True,
+                    execution_time=execution_time
+                )
+                
+                # 更新历史记录显示
+                updated_history = history_ui._get_history_list_html()
+                
+                return [(message, summary)]
+            else:
+                # 可视化失败，使用Text2SQL回退
+                response = text2sql.query(message)
+                execution_time = time.time() - start_time
+                
+                # 记录查询历史
+                history_service.record_query(
+                    user_query=message,
+                    query_type="sql",
+                    result_summary=response,
+                    success=True,
+                    execution_time=execution_time
+                )
+                
+                return [(message, response)]
         else:
-            # 可视化失败，使用Text2SQL回退
+            # 使用Text2SQL处理普通查询
             response = text2sql.query(message)
+            execution_time = time.time() - start_time
+            
+            # 记录查询历史
+            history_service.record_query(
+                user_query=message,
+                query_type="sql",
+                result_summary=response,
+                success=True,
+                execution_time=execution_time
+            )
+            
             return [(message, response)]
-    else:
-        # 使用Text2SQL处理普通查询
-        response = text2sql.query(message)
-        return [(message, response)]
+    
+    except Exception as e:
+        execution_time = time.time() - start_time
+        error_message = f"查询处理出错: {str(e)}"
+        
+        # 记录失败的查询
+        history_service.record_query(
+            user_query=message,
+            query_type="unknown",
+            result_summary=error_message,
+            success=False,
+            execution_time=execution_time
+        )
+        
+        return [(message, error_message)]
 
 # 语言切换功能
 def change_language(language):
@@ -112,7 +174,21 @@ def create_interface_components():
         'theme_setting': ui_translations.get_text('theme_setting', current_lang),
         'light_theme': ui_translations.get_text('light_theme', current_lang),
         'dark_theme': ui_translations.get_text('dark_theme', current_lang),
-        'system_theme': ui_translations.get_text('system_theme', current_lang)
+        'system_theme': ui_translations.get_text('system_theme', current_lang),
+        # 历史记录相关
+        'history_title': ui_translations.get_text('history_title', current_lang),
+        'search_placeholder': ui_translations.get_text('search_placeholder', current_lang),
+        'search_button': ui_translations.get_text('search_button', current_lang),
+        'refresh_button': ui_translations.get_text('refresh_button', current_lang),
+        'export_history': ui_translations.get_text('export_history', current_lang),
+        'clear_history': ui_translations.get_text('clear_history', current_lang),
+        'back_to_chat': ui_translations.get_text('back_to_chat', current_lang),
+        'query_time': ui_translations.get_text('query_time', current_lang),
+        'query_type': ui_translations.get_text('query_type', current_lang),
+        'total_queries': ui_translations.get_text('total_queries', current_lang),
+        'success': ui_translations.get_text('success', current_lang),
+        'failed': ui_translations.get_text('failed', current_lang),
+        'avg_time': ui_translations.get_text('avg_time', current_lang)
     }
 
 # 创建Gradio界面
@@ -143,35 +219,35 @@ def create_combined_interface():
         --shadow-medium: rgba(0, 0, 0, 0.12);
     }
     
-    /* Dark模式适配 - 优化颜色对比度和配色 */
+    /* Dark模式适配 - 优化颜色对比度和配色，使用深黄色文字和浅黑背景 */
     @media (prefers-color-scheme: dark) {
         :root {
             --loreal-gold: #FFD700;
             --loreal-dark-gold: #FFA500;
             --loreal-hover: #FFFF99;
-            --text-primary: #FFFFFF;
-            --text-secondary: #E0E0E0;
-            --text-muted: #CCCCCC;
-            --bg-primary: #1A1A1A;
-            --bg-secondary: #2D2D2D;
-            --bg-tertiary: #404040;
+            --text-primary: #DAA520;
+            --text-secondary: #B8860B;
+            --text-muted: #CD853F;
+            --bg-primary: #2A2A2A;
+            --bg-secondary: #3A3A3A;
+            --bg-tertiary: #4A4A4A;
             --border-color: #555555;
             --shadow-light: rgba(255, 255, 255, 0.1);
             --shadow-medium: rgba(255, 255, 255, 0.15);
         }
     }
     
-    /* Gradio dark主题检测 */
+    /* Gradio dark主题检测 - 使用深黄色文字和浅黑背景 */
     .dark :root {
         --loreal-gold: #FFD700;
         --loreal-dark-gold: #FFA500;
         --loreal-hover: #FFFF99;
-        --text-primary: #FFFFFF;
-        --text-secondary: #E0E0E0;
-        --text-muted: #CCCCCC;
-        --bg-primary: #1A1A1A;
-        --bg-secondary: #2D2D2D;
-        --bg-tertiary: #404040;
+        --text-primary: #DAA520;
+        --text-secondary: #B8860B;
+        --text-muted: #CD853F;
+        --bg-primary: #2A2A2A;
+        --bg-secondary: #3A3A3A;
+        --bg-tertiary: #4A4A4A;
         --border-color: #555555;
         --shadow-light: rgba(255, 255, 255, 0.1);
         --shadow-medium: rgba(255, 255, 255, 0.15);
@@ -366,45 +442,49 @@ def create_combined_interface():
         color: var(--text-primary) !important;
         text-align: left !important;
     }
-    
-    /* Dark主题下的消息样式优化 - 使用浅灰背景 */
+      /* Dark主题下的消息样式优化 - 使用明亮的金黄色文字和更亮的背景 */
     .dark .chatbot .message.user {
-        background: linear-gradient(135deg, var(--loreal-gold) 0%, var(--loreal-dark-gold) 100%) !important;
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
         color: #000000 !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         text-shadow: none !important;
         margin-left: 4rem !important;
         margin-right: 0.5rem !important;
         text-align: right !important;
+        border: 2px solid #FFD700 !important;
     }
     
     .dark .chatbot .message.bot {
         background: #505050 !important;
-        border: none !important;
-        color: #FFFFFF !important;
+        border: 2px solid #FFD700 !important;
+        color: #FFD700 !important;
+        font-weight: 600 !important;
         text-shadow: none !important;
         margin-left: 0.5rem !important;
         margin-right: 4rem !important;
         text-align: left !important;
     }
     
-    /* 确保聊天界面在dark主题下的可见性 - 使用浅灰背景 */
+    /* 确保聊天界面在dark主题下的可见性 - 使用更亮的背景 */
     .dark .chatbot {
         background: #3A3A3A !important;
-        border-color: var(--loreal-gold) !important;
-        color: #FFFFFF !important;
+        border-color: #FFD700 !important;
+        color: #FFD700 !important;
     }
     
-    /* 强制覆盖Gradio默认样式 */
+    /* 强制覆盖Gradio默认样式 - 使用明亮的金黄色文字 */
     .dark .chatbot .message.bot,
     .dark .chatbot .message.bot *,
     .dark .chatbot .message.bot p,
     .dark .chatbot .message.bot span,
     .dark .chatbot .message.bot div,
     .dark .chatbot .message.bot pre,
-    .dark .chatbot .message.bot code {
-        color: #FFFFFF !important;
+    .dark .chatbot .message.bot code,
+    .dark .chatbot .message.bot strong,
+    .dark .chatbot .message.bot em {
+        color: #FFD700 !important;
         background: transparent !important;
+        font-weight: 600 !important;
     }
     
     .dark .chatbot .message.user,
@@ -413,20 +493,109 @@ def create_combined_interface():
     .dark .chatbot .message.user span,
     .dark .chatbot .message.user div,
     .dark .chatbot .message.user pre,
-    .dark .chatbot .message.user code {
+    .dark .chatbot .message.user code,
+    .dark .chatbot .message.user strong,
+    .dark .chatbot .message.user em {
         color: #000000 !important;
         background: transparent !important;
+        font-weight: 700 !important;
     }
     
-    /* 额外的Gradio组件样式覆盖 */
+    /* 额外的Gradio组件样式覆盖 - 使用明亮的金黄色文字 */
     .dark .gr-chatbot .message,
-    .dark .gr-chatbot .message * {
-        color: #FFFFFF !important;
+    .dark .gr-chatbot .message *,
+    .dark .gr-chatbot .message p,
+    .dark .gr-chatbot .message span,
+    .dark .gr-chatbot .message div {
+        color: #FFD700 !important;
+        font-weight: 600 !important;
     }
     
     .dark .gr-chatbot .user,
-    .dark .gr-chatbot .user * {
+    .dark .gr-chatbot .user *,
+    .dark .gr-chatbot .user p,
+    .dark .gr-chatbot .user span,
+    .dark .gr-chatbot .user div {
         color: #000000 !important;
+        font-weight: 700 !important;
+    }
+      /* 特别针对Gradio聊天机器人组件的样式强化 */
+    .dark [data-testid="chatbot"] .message,
+    .dark [data-testid="chatbot"] .message *,
+    .dark .gradio-chatbot .message,
+    .dark .gradio-chatbot .message * {
+        color: #FFD700 !important;
+        font-weight: 600 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .dark [data-testid="chatbot"] .user,
+    .dark [data-testid="chatbot"] .user *,
+    .dark .gradio-chatbot .user,
+    .dark .gradio-chatbot .user * {
+        color: #000000 !important;
+        font-weight: 700 !important;
+        text-shadow: none !important;
+    }
+    
+    /* 最强制的CSS覆盖 - 针对所有可能的Gradio聊天组件 */
+    .dark .gr-chatbot,
+    .dark .gr-chatbot *,
+    .dark .chatbot,
+    .dark .chatbot *,
+    .dark [class*="chatbot"],
+    .dark [class*="chatbot"] *,
+    .dark [id*="chatbot"],
+    .dark [id*="chatbot"] * {
+        color: #FFD700 !important;
+        background-color: transparent !important;
+        font-weight: 600 !important;
+        -webkit-text-fill-color: #FFD700 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+    }
+    
+    /* 用户消息特殊处理 */
+    .dark .gr-chatbot .user,
+    .dark .gr-chatbot .user *,
+    .dark .chatbot .user,
+    .dark .chatbot .user *,
+    .dark [class*="chatbot"] .user,
+    .dark [class*="chatbot"] .user * {
+        color: #000000 !important;
+        background-color: #FFD700 !important;
+        font-weight: 700 !important;
+        -webkit-text-fill-color: #000000 !important;
+        text-shadow: none !important;
+    }
+    
+    /* 针对具体的聊天消息容器 */
+    .dark .message,
+    .dark .message *,
+    .dark [class*="message"],
+    .dark [class*="message"] * {
+        color: #FFD700 !important;
+        font-weight: 600 !important;
+        -webkit-text-fill-color: #FFD700 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+    }
+    
+    /* 针对Gradio的具体聊天组件选择器 */
+    .dark .svelte-1f354aw,
+    .dark .svelte-1f354aw *,
+    .dark .prose,
+    .dark .prose * {
+        color: #FFD700 !important;
+        font-weight: 600 !important;
+        -webkit-text-fill-color: #FFD700 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+    }
+    
+    /* 通用文本元素强制覆盖 */
+    .dark p,
+    .dark span,
+    .dark div:not(.header):not(.footer) {
+        color: #FFD700 !important;
+        -webkit-text-fill-color: #FFD700 !important;
     }
     
     /* 输入框和按钮优化 */
@@ -644,11 +813,98 @@ def create_combined_interface():
         box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
         outline: none !important;
     }
-    
-    /* 输入框占位符文本 */
+      /* 输入框占位符文本 */
     .textbox::placeholder {
         color: var(--text-secondary) !important;
         opacity: 0.7;
+    }
+    
+    /* 修复Gradio暗色主题下输入框文字不可见的问题 */
+    .dark .gr-textbox input,
+    .dark .gr-textbox textarea,
+    .dark input[type="text"],
+    .dark textarea {
+        background: #3A3A3A !important;
+        color: #DAA520 !important;
+        border: 2px solid var(--loreal-gold) !important;
+        border-radius: 8px !important;
+    }
+    
+    .dark .gr-textbox input:focus,
+    .dark .gr-textbox textarea:focus,
+    .dark input[type="text"]:focus,
+    .dark textarea:focus {
+        background: #3A3A3A !important;
+        color: #DAA520 !important;
+        border-color: var(--loreal-hover) !important;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3) !important;
+    }
+    
+    .dark .gr-textbox input::placeholder,
+    .dark .gr-textbox textarea::placeholder,
+    .dark input[type="text"]::placeholder,
+    .dark textarea::placeholder {
+        color: #B8860B !important;
+        opacity: 0.8 !important;
+    }
+      /* 强制覆盖所有输入相关元素的文字颜色 */
+    .dark [data-testid="textbox"] input,
+    .dark [data-testid="textbox"] textarea,
+    .dark .gr-form input,
+    .dark .gr-form textarea {
+        color: #DAA520 !important;
+        background: #3A3A3A !important;
+    }
+    
+    /* 额外的输入框样式强制覆盖 - 确保在所有情况下都可见 */
+    .dark .gradio-container input[type="text"],
+    .dark .gradio-container textarea,
+    .dark .gradio-container .gr-textbox input,
+    .dark .gradio-container .gr-textbox textarea,
+    .dark .gradio-container .gr-box input,
+    .dark .gradio-container .gr-box textarea,
+    .dark input,
+    .dark textarea {
+        background-color: #3A3A3A !important;
+        color: #FFD700 !important;
+        border: 2px solid #DAA520 !important;
+        border-radius: 8px !important;
+        -webkit-text-fill-color: #FFD700 !important;
+        text-shadow: none !important;
+    }
+    
+    /* 输入框焦点状态 */
+    .dark .gradio-container input[type="text"]:focus,
+    .dark .gradio-container textarea:focus,
+    .dark .gradio-container .gr-textbox input:focus,
+    .dark .gradio-container .gr-textbox textarea:focus,
+    .dark input:focus,
+    .dark textarea:focus {
+        background-color: #404040 !important;
+        color: #FFD700 !important;
+        border-color: #FFA500 !important;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3) !important;
+        outline: none !important;
+        -webkit-text-fill-color: #FFD700 !important;
+    }
+    
+    /* 输入框占位符文本在深色主题下 */
+    .dark .gradio-container input::placeholder,
+    .dark .gradio-container textarea::placeholder,
+    .dark input::placeholder,
+    .dark textarea::placeholder {
+        color: #B8860B !important;
+        opacity: 0.8 !important;
+        -webkit-text-fill-color: #B8860B !important;
+    }
+    
+    /* 针对Gradio特定的输入组件 */
+    .dark .gr-chatbot-input input,
+    .dark .gr-chatbot-input textarea {
+        background-color: #3A3A3A !important;
+        color: #FFD700 !important;
+        border: 2px solid #DAA520 !important;
+        -webkit-text-fill-color: #FFD700 !important;
     }
     
     /* 响应式设计 */
@@ -697,6 +953,8 @@ def create_combined_interface():
                         interactive=True
                     )
         
+        # 主界面内容
+        
         # 主标题区域 - 紧凑设计
         main_header = gr.HTML(
             f"""
@@ -727,56 +985,111 @@ def create_combined_interface():
             """
         )
         
-        # 主要交互区域
-        with gr.Row():
-            with gr.Column(scale=2):
-                # 聊天组件 - 增大尺寸设计
-                chatbot = gr.Chatbot(
-                    height=600, 
-                    label=texts['chat_history'],
-                    type="messages",
-                    show_copy_button=True,
-                    layout="panel"
-                )
-                
-                # 输入区域 - 紧凑设计
-                with gr.Group():
-                    msg = gr.Textbox(
-                        placeholder=texts['input_placeholder'], 
-                        label="",
-                        lines=3,
-                        max_lines=6,
-                        show_label=False,
-                        container=False,
-                        scale=4
-                    )
-                    with gr.Row():
-                        submit_btn = gr.Button(
-                            texts['send_button'], 
-                            variant="primary",
-                            scale=1
+        # 主要交互区域 - 使用标签页
+        with gr.Tabs() as main_tabs:
+            # 主聊天页面
+            with gr.TabItem("💬 智能对话", elem_id="chat_tab"):
+                with gr.Row():
+                    with gr.Column(scale=2):
+                        # 聊天组件 - 增大尺寸设计
+                        chatbot = gr.Chatbot(
+                            height=600, 
+                            label=texts['chat_history'],
+                            type="messages",
+                            show_copy_button=True,
+                            layout="panel"
                         )
-                        clear_btn = gr.Button(
-                            texts['clear_button'], 
-                            variant="secondary",
-                            scale=1
-                        )
+                        
+                        # 输入区域 - 紧凑设计
+                        with gr.Group():
+                            msg = gr.Textbox(
+                                placeholder=texts['input_placeholder'], 
+                                label="",
+                                lines=3,
+                                max_lines=6,
+                                show_label=False,
+                                container=False,
+                                scale=4
+                            )
+                            with gr.Row():
+                                submit_btn = gr.Button(
+                                    texts['send_button'], 
+                                    variant="primary",
+                                    scale=1
+                                )
+                                clear_btn = gr.Button(
+                                    texts['clear_button'], 
+                                    variant="secondary",
+                                    scale=1
+                                )
+                    
+                    with gr.Column(scale=1):
+                        # 技术详情面板 - 默认展开
+                        with gr.Accordion(texts['tech_details'], open=True):
+                            sql_display = gr.Textbox(
+                                label=texts['sql_query_label'], 
+                                lines=6, 
+                                interactive=False,
+                                placeholder=texts['sql_placeholder']
+                            )
+                            result_display = gr.Textbox(
+                                label=texts['result_label'], 
+                                lines=10, 
+                                interactive=False,
+                                placeholder=texts['result_placeholder']
+                            )
             
-            with gr.Column(scale=1):
-                # 技术详情面板 - 默认展开
-                with gr.Accordion(texts['tech_details'], open=True):
-                    sql_display = gr.Textbox(
-                        label=texts['sql_query_label'], 
-                        lines=6, 
-                        interactive=False,
-                        placeholder=texts['sql_placeholder']
-                    )
-                    result_display = gr.Textbox(
-                        label=texts['result_label'], 
-                        lines=10, 
-                        interactive=False,
-                        placeholder=texts['result_placeholder']
-                    )
+            # 历史记录页面
+            with gr.TabItem("📊 查询历史", elem_id="history_tab") as history_tab:
+                with gr.Row():
+                    with gr.Column():
+                        # 页面标题
+                        history_page_title = gr.HTML(
+                            f"""
+                            <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; color: white;">
+                                <h1 style="margin: 0; font-size: 2.5rem; font-weight: 700;">📊 {texts['history_title']}</h1>
+                                <p style="margin: 10px 0 0 0; font-size: 1.1rem; opacity: 0.9;">实时同步 • 智能搜索 • 数据导出</p>
+                            </div>
+                            """
+                        )
+                        
+                        # 控制面板
+                        with gr.Row():
+                            with gr.Column(scale=2):
+                                search_input = gr.Textbox(
+                                    placeholder=texts['search_placeholder'],
+                                    label=f"🔍 {texts['search_button']}",
+                                    lines=1
+                                )
+                            with gr.Column(scale=1):
+                                with gr.Row():
+                                    refresh_btn = gr.Button(f"🔄 刷新", size="sm")
+                                    export_btn = gr.Button(f"📥 {texts['export_history']}", size="sm")
+                                    clear_history_btn = gr.Button(f"🗑️ {texts['clear_history']}", size="sm", variant="stop")
+                        
+                        # 历史记录表格
+                        history_table = gr.Dataframe(
+                            headers=[texts['query_time'], "查询", texts['query_type'], "状态"],
+                            datatype=["str", "str", "str", "str"],
+                            interactive=False,
+                            wrap=True,
+                            column_widths=["20%", "50%", "15%", "15%"]
+                        )
+                        
+                        # 统计信息
+                        stats_display = gr.HTML(
+                            f"""
+                            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; font-size: 1rem;">
+                                <span style="margin-right: 30px;">📊 {texts['total_queries']}: 0</span>
+                                <span style="margin-right: 30px;">✅ {texts['success']}: 0</span>
+                                <span style="margin-right: 30px;">❌ {texts['failed']}: 0</span>
+                                <span>⏱️ {texts['avg_time']}: 0.0s</span>
+                            </div>
+                            """
+                        )
+                        
+                        # 操作结果显示
+                        operation_result = gr.HTML(visible=False)
         
         # 示例查询区域 - 优化设计
         with gr.Row():
@@ -806,6 +1119,8 @@ def create_combined_interface():
                             inputs=msg,
                             elem_id="insights_examples"
                         )
+        
+
         
         # 添加隐藏的HTML组件用于执行JavaScript
         js_executor = gr.HTML(visible=False)
@@ -906,7 +1221,22 @@ def create_combined_interface():
                 f"<h4 style='margin-bottom: 1rem; color: var(--loreal-gold); font-size: 1.1rem;'>{new_texts['precise_query']}</h4>",
                 f"<h4 style='margin-bottom: 1rem; color: var(--loreal-gold); font-size: 1.1rem;'>{new_texts['visual_display']}</h4>",
                 f"<h4 style='margin-bottom: 1rem; color: var(--loreal-gold); font-size: 1.1rem;'>{new_texts['smart_insights']}</h4>",
-
+                # 历史记录页面标题
+                f"""
+                <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; color: white;">
+                    <h1 style="margin: 0; font-size: 2.5rem; font-weight: 700;">📊 {new_texts['history_title']}</h1>
+                    <p style="margin: 10px 0 0 0; font-size: 1.1rem; opacity: 0.9;">实时同步 • 智能搜索 • 数据导出</p>
+                </div>
+                """,
+                # 历史记录统计信息
+                f"""
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; font-size: 1rem;">
+                    <span style="margin-right: 30px;">📊 {new_texts['total_queries']}: 0</span>
+                    <span style="margin-right: 30px;">✅ {new_texts['success']}: 0</span>
+                    <span style="margin-right: 30px;">❌ {new_texts['failed']}: 0</span>
+                    <span>⏱️ {new_texts['avg_time']}: 0.0s</span>
+                </div>
+                """,
                 # 更新语言状态
                 language
             )
@@ -915,12 +1245,139 @@ def create_combined_interface():
         def clear_conversation():
             return [], "", "", ""
         
+        # 历史记录相关功能函数
+        def get_history_data(search_query=""):
+            """获取历史记录数据"""
+            try:
+                current_lang = ui_translations.get_current_language()
+                
+                # 获取最近的历史记录
+                history_records = history_service.get_recent_queries(days=30, limit=100)
+                
+                if not history_records:
+                    no_history_text = ui_translations.get_text('no_history', current_lang)
+                    return [], f"<div style='padding: 10px; background: #f8f9fa; border-radius: 5px; font-size: 0.9rem;'>📊 {no_history_text}</div>"
+                
+                # 转换为表格数据
+                table_data = []
+                for record in history_records:
+                    # 搜索过滤
+                    if search_query and search_query.lower() not in record.user_query.lower():
+                        continue
+                        
+                    # 根据语言显示状态文本
+                    status_text = ui_translations.get_text('success', current_lang) if record.success else ui_translations.get_text('failed', current_lang)
+                    
+                    table_data.append([
+                        record.timestamp.strftime("%Y-%m-%d %H:%M"),
+                        record.user_query[:100] + "..." if len(record.user_query) > 100 else record.user_query,
+                        record.query_type,
+                        status_text
+                    ])
+                
+                # 生成统计信息
+                total_count = len(history_records)
+                success_count = sum(1 for r in history_records if r.success)
+                fail_count = total_count - success_count
+                avg_time = sum(r.execution_time for r in history_records if r.execution_time) / total_count if total_count > 0 else 0
+                
+                # 获取多语言文本
+                total_queries_text = ui_translations.get_text('total_queries', current_lang)
+                success_text = ui_translations.get_text('success', current_lang)
+                failed_text = ui_translations.get_text('failed', current_lang)
+                avg_time_text = ui_translations.get_text('avg_time', current_lang)
+                
+                stats_html = f"""
+                <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; font-size: 0.9rem;">
+                    <span style="margin-right: 20px;">📊 {total_queries_text}: {total_count}</span>
+                    <span style="margin-right: 20px;">✅ {success_text}: {success_count}</span>
+                    <span style="margin-right: 20px;">❌ {failed_text}: {fail_count}</span>
+                    <span>⏱️ {avg_time_text}: {avg_time:.2f}s</span>
+                </div>
+                """
+                
+                return table_data, stats_html
+                
+            except Exception as e:
+                current_lang = ui_translations.get_current_language()
+                if current_lang == 'en':
+                    error_msg = f"Error getting history: {str(e)}"
+                else:
+                    error_msg = f"获取历史记录时出错: {str(e)}"
+                return [], f"<div style='padding: 10px; background: #ffe6e6; border-radius: 5px; color: #d63384;'>❌ {error_msg}</div>"
+        
+        def refresh_history():
+            """刷新历史记录"""
+            return get_history_data()
+        
+        def search_history(search_query):
+            """搜索历史记录"""
+            return get_history_data(search_query)
+        
+        def export_history():
+            """导出历史记录"""
+            try:
+                current_lang = ui_translations.get_current_language()
+                export_path = history_service.export_history()
+                if export_path and os.path.exists(export_path):
+                    if current_lang == 'en':
+                        return f"✅ History exported to: {export_path}"
+                    else:
+                        return f"✅ 历史记录已导出到: {export_path}"
+                else:
+                    if current_lang == 'en':
+                        return "❌ Export failed"
+                    else:
+                        return "❌ 导出失败"
+            except Exception as e:
+                current_lang = ui_translations.get_current_language()
+                if current_lang == 'en':
+                    return f"❌ Export error: {str(e)}"
+                else:
+                    return f"❌ 导出出错: {str(e)}"
+        
+        def clear_all_history():
+            """清空所有历史记录"""
+            try:
+                current_lang = ui_translations.get_current_language()
+                history_service.clear_history()
+                if current_lang == 'en':
+                    success_msg = "✅ History cleared"
+                else:
+                    success_msg = "✅ 历史记录已清空"
+                return [], f"<div style='padding: 10px; background: #d1ecf1; border-radius: 5px; color: #0c5460;'>{success_msg}</div>"
+            except Exception as e:
+                current_lang = ui_translations.get_current_language()
+                if current_lang == 'en':
+                    error_msg = f"Error clearing history: {str(e)}"
+                else:
+                    error_msg = f"清空历史记录时出错: {str(e)}"
+                return [], f"<div style='padding: 10px; background: #ffe6e6; border-radius: 5px; color: #d63384;'>❌ {error_msg}</div>"
+        
+        def toggle_history_panel():
+            """切换历史记录面板显示状态"""
+            # 当点击历史记录按钮时，自动刷新数据
+            return get_history_data()
+        
         # 设置事件处理
         # 语言切换事件
+        def update_examples_and_interface(language):
+            """更新界面语言和示例查询"""
+            ui_translations.set_language(language)
+            new_texts = create_interface_components()
+            
+            # 更新示例查询
+            precise_examples.examples = new_texts['examples_precise']
+            visual_examples.examples = new_texts['examples_visual']
+            insights_examples.examples = new_texts['examples_insights']
+            
+            # 调用原有的界面更新函数
+            return update_interface_language(language)
+        
         language_dropdown.change(
-            update_interface_language,
+            update_examples_and_interface,
             inputs=[language_dropdown],
-            outputs=[main_header, feature_cards, precise_title, visual_title, insights_title, language_state]
+            outputs=[main_header, feature_cards, precise_title, visual_title, insights_title, history_page_title, stats_display, language_state]
         )
         
         # 消息提交事件
@@ -933,6 +1390,55 @@ def create_combined_interface():
         clear_btn.click(
             clear_conversation, 
             outputs=[chatbot, msg, sql_display, result_display]
+        )
+        
+        # 标签页切换函数
+        def switch_to_history_tab():
+            """切换到历史记录标签页并刷新数据"""
+            table_data, stats_html = get_history_data()
+            return gr.Tabs(selected=1), table_data, stats_html
+        
+        # 初始化历史记录数据
+        def load_initial_history():
+            """页面加载时初始化历史记录数据"""
+            table_data, stats_html = get_history_data()
+            return table_data, stats_html
+        
+        # 页面加载时初始化历史记录
+        interface.load(
+            load_initial_history,
+            outputs=[history_table, stats_display]
+        )
+        
+        # 历史记录相关事件处理
+        
+        # 刷新按钮事件
+        refresh_btn.click(
+            refresh_history,
+            outputs=[history_table, stats_display]
+        )
+        
+        # 搜索事件
+        search_input.submit(
+            search_history,
+            inputs=[search_input],
+            outputs=[history_table, stats_display]
+        )
+        
+        # 导出按钮事件
+        def handle_export():
+            result = export_history()
+            return gr.HTML(value=f"<div style='padding: 10px; background: #d1ecf1; border-radius: 5px; color: #0c5460; margin-top: 10px;'>{result}</div>", visible=True)
+        
+        export_btn.click(
+            handle_export,
+            outputs=[operation_result]
+        )
+        
+        # 清空历史记录按钮事件
+        clear_history_btn.click(
+            clear_all_history,
+            outputs=[history_table, stats_display]
         )
     
     return interface
