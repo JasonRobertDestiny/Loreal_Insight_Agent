@@ -10,7 +10,7 @@
 
 **🚀 基于大语言模型的智能数据分析助手，专为企业数据洞察而设计**
 
-[🎮 在线演示]([https://www.modelscope.cn/studios/JasonRobert/loreal-insight-agent/files]) | [📖 文档](https://deepwiki.com/JasonRobertDestiny/Loreal_Insight_Agent) | [🤝 贡献指南](CONTRIBUTING.md)
+[🎮 在线演示](https://www.modelscope.cn/studios/JasonRobert/loreal-insight-agent/files) | [📖 文档](https://deepwiki.com/JasonRobertDestiny/Loreal_Insight_Agent) | [🤝 贡献指南](CONTRIBUTING.md)
 
 </div>
 
